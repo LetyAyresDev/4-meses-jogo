@@ -7,6 +7,8 @@ const pontuacaoHTML = document.getElementById("pontuacao");
 const vidasHTML = document.getElementById("vidas");
 
 const ctx = telaCanvas.getContext("2d");
+const imagemFinal = new Image();
+imagemFinal.src = "imagens/final-familia.png";
 
 const LARGURA = 800;
 const ALTURA = 360;
@@ -150,14 +152,12 @@ function apertarTecla(evento, pressionada) {
     }
 
     if (estado === "final" && pressionada) {
-        if (tecla === "enter" || tecla === " ") {
-            estado = "inicio";
-            telaJogo.classList.add("escondido");
-            telaInicio.classList.remove("escondido");
-            botaoIniciar.textContent = "Jogar novamente ♥";
-        }
-        return;
+    if (tecla === "enter" || tecla === " ") {
+        prepararFase1();
+        estado = "jogando";
     }
+    return;
+}
 
     if (estado === "derrota" && pressionada) {
         if (tecla === "enter" || tecla === " ") {
@@ -468,6 +468,26 @@ function desenharPainel(titulo, linhas) {
 }
 
 function desenhar() {
+    // Tela especial quando a missão é concluída.
+    if (
+        estado === "final" &&
+        imagemFinal.complete &&
+        imagemFinal.naturalWidth > 0
+    ) {
+        const escala = Math.max(
+            LARGURA / imagemFinal.naturalWidth,
+            ALTURA / imagemFinal.naturalHeight
+        );
+
+        const largura = imagemFinal.naturalWidth * escala;
+        const altura = imagemFinal.naturalHeight * escala;
+        const x = (LARGURA - largura) / 2;
+        const y = (ALTURA - altura) / 2;
+
+        ctx.drawImage(imagemFinal, x, y, largura, altura);
+        return;
+    }
+
     desenharCenario();
 
     coracoes.forEach(coracao => {
