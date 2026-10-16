@@ -8,7 +8,7 @@ const vidasHTML = document.getElementById("vidas");
 
 const ctx = telaCanvas.getContext("2d");
 const imagemFinal = new Image();
-imagemFinal.src = "imagens/final-familia.png";
+imagemFinal.src = "final-familia.png";
 
 const LARGURA = 800;
 const ALTURA = 360;
